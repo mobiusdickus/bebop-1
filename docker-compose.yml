@@ -1,0 +1,45 @@
+version: '3'
+
+services:
+
+  app:
+    build: './containers/app'
+    container_name: 'app'
+    environment:
+      CHOKIDAR_USEPOLLING: 'true'
+    volumes:
+      - './containers/app/src:/srv/src'
+      - './containers/app/public:/srv/public'
+    networks:
+      - 'frontend'
+    expose:
+      - '3000'
+
+  api:
+    build: './containers/api'
+    container_name: 'api'
+    environment:
+      FLASK_ENV: 'development'
+    volumes:
+      - './containers/api/src:/srv/src'
+    networks:
+      - 'backend'
+    expose:
+      - '8080'
+
+  nginx:
+    build: './containers/nginx'
+    container_name: 'nginx'
+    volumes:
+      - './containers/nginx/nginx.conf:/etc/nginx/nginx.conf'
+    networks:
+      - 'backend'
+      - 'frontend'
+    ports:
+      - '3000:3000'
+
+networks:
+  frontend:
+    driver: bridge
+  backend:
+    driver: bridge
