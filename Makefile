@@ -1,26 +1,11 @@
-#PRODUCTION=docker-compose.prod.yml
-#DEVELOPMENT=docker-compose.dev.yml
+develop: clean build run
 
-develop: clean-dev build-dev run-dev
+clean:
+	docker-compose -f docker-compose.${ENVIRONMENT}.yml stop -t0
+	docker-compose -f docker-compose.${ENVIRONMENT}.yml rm -f
 
-clean-dev:
-	docker-compose -f docker-compose.dev.yml stop -t0
-	docker-compose -f docker-compose.dev.yml rm -f
+build:
+	docker-compose -f docker-compose.${ENVIRONMENT}.yml build
 
-build-dev:
-	docker-compose -f docker-compose.dev.yml build
-
-run-dev:
-	docker-compose -f docker-compose.dev.yml up
-
-prod: clean-prod build-prod run-prod
-
-clean-prod:
-	docker-compose -f docker-compose.prod.yml stop -t0
-	docker-compose -f docker-compose.prod.yml rm -f
-
-build-prod:
-	docker-compose -f docker-compose.prod.yml build
-
-run-prod:
-	docker-compose -f docker-compose.prod.yml up
+run:
+	docker-compose -f docker-compose.${ENVIRONMENT}.yml up
