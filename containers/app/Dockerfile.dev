@@ -10,5 +10,5 @@ RUN yarn
 # Add the project
 COPY . ./
 
-# Production build
+# Run the dev frontend with react-scripts
 CMD ["yarn", "run", "start"]

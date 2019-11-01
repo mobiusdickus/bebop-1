@@ -3,9 +3,7 @@ version: '3'
 services:
 
   server:
-    build: 
-      context: './containers/nginx'
-      dockerfile: 'Dockerfile.dev'
+    build: './containers/nginx'
     container_name: 'server'
     volumes:
       - './containers/nginx/nginx.dev.conf:/etc/nginx/nginx.conf'
