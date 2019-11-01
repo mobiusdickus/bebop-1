@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+
+  app-server:
+    build: 
+      context: './containers'
+      dockerfile: './app/Dockerfile.prod'
+    container_name: 'app-server'
+    volumes:
+      - './containers/nginx/nginx.prod.conf:/etc/nginx/conf.d/nginx.prod.conf'
+    networks:
+      - 'frontend'
+      - 'backend'
+    ports:
+      - '80:80'
+
+  api:
+    build: './containers/api'
+    container_name: 'api'
+    environment:
+      FLASK_ENV: 'production'
+    volumes:
+      - './containers/api/src:/srv/src'
+    networks:
+      - 'backend'
+    expose:
+      - '8080'
+
+networks:
+  frontend:
+    driver: bridge
+  backend:
+    driver: bridge
