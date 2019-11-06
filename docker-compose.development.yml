@@ -3,44 +3,45 @@ version: '3'
 services:
 
   server:
-    build: './containers/nginx'
-    container_name: 'server'
+    build: ./containers/nginx
+    container_name: server
     volumes:
-      - './containers/nginx/nginx.dev.conf:/etc/nginx/nginx.conf'
+      - ./containers/nginx/nginx.dev.conf:/etc/nginx/nginx.conf
     networks:
-      - 'frontend'
-      - 'backend'
+      - frontend
+      - backend
     ports:
-      - '80:80'
+      - 80:80
 
   app:
-    build: 
-      context: './containers/app'
-      dockerfile: 'Dockerfile.dev'
-    container_name: 'app'
+    build:
+      context: ./containers/app
+      dockerfile: Dockerfile.dev
+    container_name: app
     environment:
       NODE_ENV: 'development'
       CHOKIDAR_USEPOLLING: 'true'
     volumes:
-      - './containers/app/src:/app/src'
-      - './containers/app/public:/app/public'
+      - ./containers/app/src:/app/src
+      - ./containers/app/public:/app/public
     networks:
-      - 'frontend'
+      - frontend
     expose:
-      - '3000'
+      - 3000
 
   api:
-    build: './containers/api'
-    container_name: 'api'
+    build:
+      context: ./containers/api
+      dockerfile: Dockerfile.dev
+    container_name: api
     environment:
       FLASK_ENV: 'development'
-      FLASK_DEBUG: '1'
     volumes:
-      - './containers/api/src:/srv/src'
+      - ./containers/api/src:/srv/src
     networks:
-      - 'backend'
+      - backend
     expose:
-      - '8080'
+      - 8080
 
 networks:
   frontend:

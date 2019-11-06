@@ -13,4 +13,4 @@ def main():
 
 @bp.route('/test', methods=['GET'])
 def test():
-    return {'data': 'This is a test...'}
+    return {'data': 'This is an API request...'}

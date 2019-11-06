@@ -16,9 +16,8 @@ RUN pipenv install
 
 # Add the project
 ADD ./src ./src
-ADD ./config/gunicorn.py ./
 ADD setup.py ./
 RUN pipenv run python setup.py develop
 
 ENV FLASK_APP src
-CMD ["pipenv", "run", "gunicorn", "--reload", "-c", "gunicorn.py", "src:create_app()"]
+CMD ["pipenv", "run", "flask", "run", "--host", "0.0.0.0", "--port", "8080"]

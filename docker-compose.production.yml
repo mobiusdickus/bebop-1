@@ -4,27 +4,29 @@ services:
 
   app-server:
     build: 
-      context: './containers'
-      dockerfile: './app/Dockerfile.prod'
-    container_name: 'app-server'
+      context: ./containers
+      dockerfile: ./app/Dockerfile.prod
+    container_name: app-server
     volumes:
-      - './containers/nginx/nginx.prod.conf:/etc/nginx/conf.d/nginx.prod.conf'
+      - ./containers/nginx/nginx.prod.conf:/etc/nginx/conf.d/nginx.prod.conf
     networks:
-      - 'backend'
+      - backend
     ports:
-      - '80:80'
+      - 80:80
 
   api:
-    build: './containers/api'
-    container_name: 'api'
+    build: 
+      context: ./containers/api
+      dockerfile: Dockerfile.prod
+    container_name: api
     environment:
       FLASK_ENV: 'production'
     volumes:
-      - './containers/api/src:/srv/src'
+      - ./containers/api/src:/srv/src
     networks:
-      - 'backend'
+      - backend
     expose:
-      - '8080'
+      - 8080
 
 networks:
   backend:
