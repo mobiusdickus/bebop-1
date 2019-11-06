@@ -21,4 +21,4 @@ ADD setup.py ./
 RUN pipenv run python setup.py develop
 
 ENV FLASK_APP src
-CMD ["pipenv", "run", "gunicorn", "-c", "gunicorn.py", "src:create_app()"]
+CMD ["pipenv", "run", "gunicorn", "--reload", "-c", "gunicorn.py", "src:create_app()"]
