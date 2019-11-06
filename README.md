@@ -4,7 +4,6 @@ Framework for building a dockerized flask, react, gunicorn, and nginx app
 ## Prerequisites
 
 1) Install  `docker` and `docker-compose`
-2) Load `.envrc` (I'm using `direnv` for this project)
 
 ## Development
 
