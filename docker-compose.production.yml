@@ -10,7 +10,6 @@ services:
     volumes:
       - './containers/nginx/nginx.prod.conf:/etc/nginx/conf.d/nginx.prod.conf'
     networks:
-      - 'frontend'
       - 'backend'
     ports:
       - '80:80'
@@ -28,7 +27,5 @@ services:
       - '8080'
 
 networks:
-  frontend:
-    driver: bridge
   backend:
     driver: bridge
