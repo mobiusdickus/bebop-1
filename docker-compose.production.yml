@@ -2,32 +2,61 @@ version: '3'
 
 services:
 
-  app-server:
+  nginx-proxy:
+    image: jwilder/nginx-proxy:alpine
+    container_name: nginx-proxy
+    restart: always
+    volumes:
+      - certs:/etc/nginx/certs:ro
+      - nginx-conf:/etc/nginx/conf.d
+      - nginx-vhost:/etc/nginx/vhost.d
+      - nginx-share:/usr/share/nginx/html
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    ports:
+      - 80:80
+      - 443:443
+    environment:
+      DEFAULT_HOST: "ctchan.me"
+    entrypoint: bash
+    command: -c "echo 'client_max_body_size 10m;' > /etc/nginx/conf.d/extra_configuration.conf; /app/docker-entrypoint.sh forego start -r"
+
+  letsencrypt-nginx-proxy:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    container_name: letsencrypt-nginx-proxy
+    restart: always
+    environment:
+      NGINX_PROXY_CONTAINER: nginx-proxy
+    volumes:
+      - certs:/etc/nginx/certs:rw
+      - nginx-conf:/etc/nginx/conf.d
+      - nginx-vhost:/etc/nginx/vhost.d
+      - nginx-share:/usr/share/nginx/html
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+  app:
     build: 
       context: ./containers
       dockerfile: ./app/Dockerfile.prod
-    container_name: app-server
-    volumes:
-      - ./containers/nginx/nginx.prod.conf:/etc/nginx/conf.d/nginx.prod.conf
-    networks:
-      - backend
-    ports:
-      - 80:80
+    restart: always
+    container_name: app
+    environment:
+      VIRTUAL_HOST: "ctchan.me"
+      LETSENCRYPT_HOST: "ctchan.me"
+      LETSENCRYPT_EMAIL: "colin@ctchan.me"
 
   api:
-    build: 
+    build:
       context: ./containers/api
       dockerfile: Dockerfile.prod
+    restart: always
     container_name: api
-    environment:
-      FLASK_ENV: 'production'
     volumes:
       - ./containers/api/src:/srv/src
-    networks:
-      - backend
-    expose:
-      - 8080
+    environment:
+      FLASK_ENV: 'production'
 
-networks:
-  backend:
-    driver: bridge
+volumes:
+  certs:
+  nginx-conf:
+  nginx-vhost:
+  nginx-share:
