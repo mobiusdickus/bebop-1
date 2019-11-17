@@ -17,21 +17,19 @@ services:
       - 443:443
     environment:
       DEFAULT_HOST: "ctchan.me"
-    entrypoint: bash
-    command: -c "echo 'client_max_body_size 10m;' > /etc/nginx/conf.d/extra_configuration.conf; /app/docker-entrypoint.sh forego start -r"
 
   letsencrypt-nginx-proxy:
     image: jrcs/letsencrypt-nginx-proxy-companion
     container_name: letsencrypt-nginx-proxy
     restart: always
-    environment:
-      NGINX_PROXY_CONTAINER: nginx-proxy
     volumes:
       - certs:/etc/nginx/certs:rw
       - nginx-conf:/etc/nginx/conf.d
       - nginx-vhost:/etc/nginx/vhost.d
       - nginx-share:/usr/share/nginx/html
       - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      NGINX_PROXY_CONTAINER: nginx-proxy
 
   app:
     build: 
