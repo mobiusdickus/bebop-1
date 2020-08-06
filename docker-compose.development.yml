@@ -12,6 +12,7 @@ services:
       - backend
     ports:
       - 80:80
+      - 3030:3030
 
   ctchan-app:
     build:
@@ -24,6 +25,22 @@ services:
     volumes:
       - ./containers/app/src:/app/src
       - ./containers/app/public:/app/public
+    networks:
+      - frontend
+    expose:
+      - 3000
+
+  thedaisycabin-app:
+    build:
+      context: ./containers/app-2
+      dockerfile: Dockerfile.dev
+    container_name: thedaisycabin-app
+    environment:
+      NODE_ENV: 'development'
+      CHOKIDAR_USEPOLLING: 'true'
+    volumes:
+      - ./containers/app-2/src:/app/src
+      - ./containers/app-2/public:/app/public
     networks:
       - frontend
     expose:

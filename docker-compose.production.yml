@@ -42,6 +42,20 @@ services:
       LETSENCRYPT_HOST: "ctchan.me"
       LETSENCRYPT_EMAIL: "colin@ctchan.me"
 
+  app-2:
+    build: 
+      context: ./containers
+      dockerfile: ./app-2/Dockerfile.prod
+    restart: always
+    container_name: app-2
+    expose: 
+      - 3001
+    environment:
+      VIRTUAL_PORT: 3001
+      VIRTUAL_HOST: "thedaisycabin.com"
+      LETSENCRYPT_HOST: "thedaisycabin.com"
+      LETSENCRYPT_EMAIL: "colin@thedaisycabin.com"
+
   api:
     build:
       context: ./containers/api
@@ -58,3 +72,8 @@ volumes:
   nginx-conf:
   nginx-vhost:
   nginx-share:
+
+networks:
+  default:
+    external:
+      name: nginx-proxy

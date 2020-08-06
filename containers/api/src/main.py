@@ -14,3 +14,7 @@ def main():
 @bp.route('/test', methods=['GET'])
 def test():
     return {'data': 'colin at ctchan.me'}
+
+@bp.route('/daisycabin', methods=['GET'])
+def daisycabin():
+    return {'data': 'colin@thedaisycabin.com'}
