@@ -31,31 +31,31 @@ services:
     environment:
       NGINX_PROXY_CONTAINER: nginx-proxy
 
-  app:
+  app-ctchan:
     build: 
       context: ./containers
-      dockerfile: ./app/Dockerfile.prod
+      dockerfile: ./app-ctchan/Dockerfile.prod
     restart: always
-    container_name: app
+    container_name: app-ctchan
     environment:
       VIRTUAL_HOST: "ctchan.me"
       LETSENCRYPT_HOST: "ctchan.me"
       LETSENCRYPT_EMAIL: "colin@ctchan.me"
 
-  daisycabin-app:
+  app-thedaisycabin:
     build: 
       context: ./containers
-      dockerfile: ./app-2/Dockerfile.prod
+      dockerfile: ./app-thedaisycabin/Dockerfile.prod
     restart: always
-    container_name: daisycabin-app
+    container_name: app-thedaisycabin
     environment:
       VIRTUAL_HOST: "thedaisycabin.com, www.thedaisycabin.com"
       LETSENCRYPT_HOST: "thedaisycabin.com, www.thedaisycabin.com"
       LETSENCRYPT_EMAIL: "colin@thedaisycabin.com"
 
-  api:
+  api-ctchan:
     build:
-      context: ./containers/api
+      context: ./containers/api-ctchan
       dockerfile: Dockerfile.prod
     restart: always
     container_name: api

@@ -2,9 +2,9 @@ version: '3'
 
 services:
 
-  ctchan-server:
+  server-ctchan:
     build: ./containers/nginx
-    container_name: ctchan-server
+    container_name: server-ctchan
     volumes:
       - ./containers/nginx/nginx.dev.conf:/etc/nginx/nginx.conf
     networks:
@@ -14,62 +14,62 @@ services:
       - 80:80
       - 3030:3030
 
-  ctchan-app:
+  app-ctchan:
     build:
-      context: ./containers/app
+      context: ./containers/app-ctchan
       dockerfile: Dockerfile.dev
-    container_name: ctchan-app
+    container_name: app-ctchan
     environment:
       NODE_ENV: 'development'
       CHOKIDAR_USEPOLLING: 'true'
     volumes:
-      - ./containers/app/src:/app/src
-      - ./containers/app/public:/app/public
+      - ./containers/app-ctchan/src:/app/src
+      - ./containers/app-ctchan/public:/app/public
     networks:
       - frontend
     expose:
       - 3000
 
-  thedaisycabin-app:
+  app-thedaisycabin:
     build:
-      context: ./containers/app-2
+      context: ./containers/app-thedaisycabin
       dockerfile: Dockerfile.dev
-    container_name: thedaisycabin-app
+    container_name: app-thedaisycabin
     environment:
       NODE_ENV: 'development'
       CHOKIDAR_USEPOLLING: 'true'
     volumes:
-      - ./containers/app-2/src:/app/src
-      - ./containers/app-2/public:/app/public
+      - ./containers/app-thedaisycabin/src:/app/src
+      - ./containers/app-thedaisycabin/public:/app/public
     networks:
       - frontend
     expose:
       - 3000
 
-  ctchan-api:
+  api-ctchan:
     build:
-      context: ./containers/api
+      context: ./containers/api-ctchan
       dockerfile: Dockerfile.dev
-    container_name: ctchan-api
+    container_name: api-ctchan
     environment:
       FLASK_ENV: 'development'
     volumes:
-      - ./containers/api/src:/srv/src
+      - ./containers/api-ctchan/src:/srv/src
     networks:
       - backend
     expose:
       - 8080
 
-  ctchan-db:
+  db-ctchan:
     image: mongo:latest
-    container_name: ctchan-db
+    container_name: db-ctchan
     environment:
       MONGO_INITDB_DATABASE: '${MONGO_INITDB_DATABASE}'
       MONGO_INITDB_ROOT_USERNAME: '${MONGO_INITDB_ROOT_USERNAME}'
       MONGO_INITDB_ROOT_PASSWORD: '${MONGO_INITDB_ROOT_PASSWORD}'
     volumes:
-      - ./containers/db/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
-      - ./containers/db/mongo-volume:/data/db
+      - ./containers/db-ctchan/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+      - ./containers/db-ctchan/mongo-volume:/data/db
     networks:
       - backend
     restart: unless-stopped
