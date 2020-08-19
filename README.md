@@ -3,9 +3,15 @@ My personal projects built off a basic dockerized framework for small personal p
 Portable and compatible to any machine that can run docker/docker-compose.
 
 ## Prerequisites
-
 1) Install  `docker` and `docker-compose`
 
 ## Development
+Run `make develop`
 
-Run `make develop` or `make production`
+## Production
+Run `make production`
+
+## Notes
+Current projects running:
+1. ctchan.me
+2. thedaisycabin.com
