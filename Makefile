@@ -1,4 +1,4 @@
-develop: dev-env clean build run
+#develop: dev-env clean build run
 
 production: prod-env clean build run
 

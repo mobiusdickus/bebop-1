@@ -2,3 +2,5 @@
 *.env
 **/assets
 **/mongo-volume
+projects/*
+!projects/README.md

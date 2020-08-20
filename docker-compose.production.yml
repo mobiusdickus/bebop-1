@@ -31,10 +31,11 @@ services:
     environment:
       NGINX_PROXY_CONTAINER: nginx-proxy
 
+  # Project: ctchan.me 
   app-ctchan:
     build: 
-      context: ./containers
-      dockerfile: ./app-ctchan/Dockerfile.prod
+      context: ./projects/containers/ctchan.me/app/
+      dockerfile: ./Dockerfile.prod
     restart: always
     container_name: app-ctchan
     environment:
@@ -42,27 +43,28 @@ services:
       LETSENCRYPT_HOST: "ctchan.me"
       LETSENCRYPT_EMAIL: "colin@ctchan.me"
 
+  api-ctchan:
+    build:
+      context: ./projects/containers/ctchan.me/api/
+      dockerfile: ./Dockerfile.prod
+    restart: always
+    container_name: api
+    volumes:
+      - ./projects/containers/api/src:/srv/src
+    environment:
+      FLASK_ENV: 'production'
+  
+  # Project: thedaisycabin.com
   app-thedaisycabin:
     build: 
-      context: ./containers
-      dockerfile: ./app-thedaisycabin/Dockerfile.prod
+      context: ./projects/containers/thedaisycabin/app/
+      dockerfile: ./Dockerfile.prod
     restart: always
     container_name: app-thedaisycabin
     environment:
       VIRTUAL_HOST: "thedaisycabin.com, www.thedaisycabin.com"
       LETSENCRYPT_HOST: "thedaisycabin.com, www.thedaisycabin.com"
       LETSENCRYPT_EMAIL: "colin@thedaisycabin.com"
-
-  api-ctchan:
-    build:
-      context: ./containers/api-ctchan
-      dockerfile: Dockerfile.prod
-    restart: always
-    container_name: api
-    volumes:
-      - ./containers/api/src:/srv/src
-    environment:
-      FLASK_ENV: 'production'
 
 volumes:
   certs:
