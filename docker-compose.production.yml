@@ -34,7 +34,7 @@ services:
   # Project: ctchan.me 
   app-ctchan:
     build: 
-      context: ./projects/containers/ctchan.me/app/
+      context: ./projects/ctchan.me/containers/app/
       dockerfile: ./Dockerfile.prod
     restart: always
     container_name: app-ctchan
@@ -45,7 +45,7 @@ services:
 
   api-ctchan:
     build:
-      context: ./projects/containers/ctchan.me/api/
+      context: ./projects/ctchan.me/containers/api/
       dockerfile: ./Dockerfile.prod
     restart: always
     container_name: api
@@ -57,7 +57,7 @@ services:
   # Project: thedaisycabin.com
   app-thedaisycabin:
     build: 
-      context: ./projects/containers/thedaisycabin/app/
+      context: ./projects/thedaisycabin.com/containers/app/
       dockerfile: ./Dockerfile.prod
     restart: always
     container_name: app-thedaisycabin
