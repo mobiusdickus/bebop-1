@@ -66,6 +66,29 @@ services:
       LETSENCRYPT_HOST: "thedaisycabin.com, www.thedaisycabin.com"
       LETSENCRYPT_EMAIL: "colin@thedaisycabin.com"
 
+  # Project: planta.monster
+  api-plantamonsta:
+    build:
+      context: ./projects/planta.monster/
+      dockerfile: ./containers/api/Dockerfile.prod
+    restart: always
+    container_name: api-plantamonsta
+    volumes:
+      - ./projects/planta.monster/containers/api/src:/srv/src
+    environment:
+      FLASK_ENV: 'production'
+
+  app-plantamonsta:
+    build:
+      context: ./projects/planta.monster/
+      dockerfile: ./containers/app/Dockerfile.prod
+    restart: always
+    container_name: app-plantamonsta
+    environment:
+      VIRTUAL_HOST: "planta.monster, www.planta.monster"
+      LETSENCRYPT_HOST: "planta.monster, www.planta.monster"
+      LETSENCRYPT_EMAIL: "admin@planta.monster"
+
 volumes:
   certs:
   nginx-conf:
