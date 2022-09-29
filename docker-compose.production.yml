@@ -16,7 +16,7 @@ services:
       - 80:80
       - 443:443
     environment:
-      DEFAULT_HOST: "ctchan.me"
+      DEFAULT_HOST: "planta.monster"
 
   letsencrypt-nginx-proxy:
     image: jrcs/letsencrypt-nginx-proxy-companion
@@ -32,27 +32,27 @@ services:
       NGINX_PROXY_CONTAINER: nginx-proxy
 
   # Project: ctchan.me 
-  app-ctchan:
-    build: 
-      context: ./projects/ctchan.me/
-      dockerfile: ./containers/app/Dockerfile.prod
-    restart: always
-    container_name: app-ctchan
-    environment:
-      VIRTUAL_HOST: "ctchan.me"
-      LETSENCRYPT_HOST: "ctchan.me"
-      LETSENCRYPT_EMAIL: "colin@ctchan.me"
+  #app-ctchan:
+    #build: 
+      #context: ./projects/ctchan.me/
+      #dockerfile: ./containers/app/Dockerfile.prod
+    #restart: always
+    #container_name: app-ctchan
+    #environment:
+      #VIRTUAL_HOST: "ctchan.me"
+      #LETSENCRYPT_HOST: "ctchan.me"
+      #LETSENCRYPT_EMAIL: "colin@ctchan.me"
 
-  api-ctchan:
-    build:
-      context: ./projects/ctchan.me/
-      dockerfile: ./containers/api/Dockerfile.prod
-    restart: always
-    container_name: api-ctchan
-    volumes:
-      - ./projects/ctchan.me/containers/api/src:/srv/src
-    environment:
-      FLASK_ENV: 'production'
+  #api-ctchan:
+    #build:
+      #context: ./projects/ctchan.me/
+      #dockerfile: ./containers/api/Dockerfile.prod
+    #restart: always
+    #container_name: api-ctchan
+    #volumes:
+      #- ./projects/ctchan.me/containers/api/src:/srv/src
+    #environment:
+      #FLASK_ENV: 'production'
   
   # Project: thedaisycabin.com
   app-thedaisycabin:
